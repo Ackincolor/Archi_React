@@ -22,7 +22,6 @@ export default class LinkScreen extends React.Component {
       var finalAlbum = new Array();
       for(let album of json)
       {
-        console.log(album);
         finalAlbum.push(album.title);
       }
       this.setState({

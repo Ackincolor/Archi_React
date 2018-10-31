@@ -11,9 +11,11 @@ import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
+import DialogInput from 'react-native-dialog-input';
+
 import { ListView } from 'react-native';
 import { Container, Header, Content, Button, Icon, List, ListItem, Text } from 'native-base';
-const datas = [
+datas = [
   'Simon jhfihjfgf',
   'Nathaniel Clyne',
   'Dejan Lovren',
@@ -38,6 +40,7 @@ export default class HomeScreen extends React.Component {
     this.state = {
       basic: true,
       listViewData: datas,
+      isDialogVisible : false,
     };
   }
   deleteRow(secId, rowId, rowMap) {
@@ -45,6 +48,14 @@ export default class HomeScreen extends React.Component {
     const newData = [...this.state.listViewData];
     newData.splice(rowId, 1);
     this.setState({ listViewData: newData });
+  }
+  showDialog(value)
+  {
+    this.state.isDialogVisible = value;
+    this.forceUpdate();
+  }
+  sendInput(data){
+    datas.push(data);
   }
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -73,8 +84,15 @@ export default class HomeScreen extends React.Component {
         </ScrollView>
         <View style={styles.navBar}>
           <Text style={{}}>Ajouter des gens !!</Text>
-          <Button Rounded transparent info style={styles.rightContainer}><Text>ADD!<Icon ios='ios-add' android="ios-add" style={{fontSize: 30,color:"cyan"}}/></Text></Button>
+          <Button Rounded transparent info style={styles.rightContainer} onPress={_ => this.openDialog()}><Text>ADD!<Icon ios='ios-add' android="ios-add" style={{fontSize: 30,color:"cyan"}}/></Text></Button>
         </View>
+        <DialogInput isDialogVisible={this.state.isDialogVisible}
+        title={"DialogInput 1"}
+        message={"Message for DialogInput #1"}
+        hintInput ={"HINT INPUT"}
+        submitInput={ (inputText) => {this.sendInput(inputText)} }
+        closeDialog={ () => {this.showDialog(false)}}>
+      </DialogInput>
       </Container>
     );
   }
